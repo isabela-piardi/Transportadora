@@ -18,6 +18,17 @@ import java.util.Random;
 public class AgenteDeCotacao {
 
     List<Transportador> lista;
+    ObtencaoTransportador obtencao;
+
+    public AgenteDeCotacao(boolean validador) {
+        if (validador == true) {
+            obtencao = new ObtencaoTransportadorOrdenado();
+            
+        } else {
+            obtencao = new ObtencaoTransportadorComparacao();
+        }
+
+    }
 
     public void preencheLista() {
         lista = new ArrayList<>();
@@ -43,41 +54,11 @@ public class AgenteDeCotacao {
     }
 
     public Transportador obterMenorValor(List<Transportador> lista) {
-        Transportador menor = new Transportador();
-        menor.setPrecoporkm(Double.MAX_VALUE);
-
-        for (Transportador transportador : lista) {
-            menor = (transportador.calculaViagem(10) < menor.calculaViagem(10) ? transportador : menor);
-
-        }
-        return menor;
-
+        return obtencao.obterMenorValor(lista);
     }
 
     public Transportador obterMaiorValor(List<Transportador> lista) {
-        Transportador maior = new Transportador();
-        maior.setPrecoporkm(Double.MIN_VALUE);
-
-        for (Transportador transportador : lista) {
-            maior = (transportador.calculaViagem(10) > maior.calculaViagem(10) ? transportador : maior);
-        }
-        return maior;
-    }
-
-    public Transportador obterMenorValor1(List<Transportador> lista) {
-        Transportador primeiro = lista.get(0);
-        return primeiro;
-
-    }
-
-    public Transportador obterMaiorValor1(List<Transportador> lista) {
-        if (lista.size() <= 0) {
-            System.out.println("A lista está vazia!");
-            return null;
-        }
-        Transportador ultimo = lista.get(lista.size() - 1);
-        return ultimo;
-
+        return obtencao.obterMaiorValor(lista);
     }
 
     public double obterMediaAritimetica(List<Transportador> lista) {
@@ -93,15 +74,14 @@ public class AgenteDeCotacao {
         return soma / lista.size();
     }
 
-    
     public Transportador obteroMeio(List<Transportador> lista) {
         if (lista.size() <= 0) {
             System.out.println("A lista está vazia!");
             return null;
         }
-        
-       Transportador meio = lista.get(((lista.size()-1)/2));
-       return meio;
-        
+
+        Transportador meio = lista.get(((lista.size() - 1) / 2));
+        return meio;
+
     }
 }
